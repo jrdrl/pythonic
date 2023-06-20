@@ -183,8 +183,6 @@ matriz_formatada = matriz(*dados)
 # Saída de dados
 st.write('A matriz digitada foi:')
 exibir_matriz_direita(matriz_formatada)
-# Chamada da função para exibir a matriz à direita
-exibir_matriz_direita(matriz_formatada)
 
 st.write('O determinante da matriz é:')
 st.write(det_cramer(matriz_formatada))
