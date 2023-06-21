@@ -154,48 +154,52 @@ st.write('Aqui você pode calcular o determinante de uma matriz quadrada de qual
          )
 
 # Entrada de dados
+col1, col2 = st.columns(2)
 
-n = st.number_input('Digite a ordem da matriz', min_value=1,
-                    max_value=10, value=1, step=1)
+with col1:
 
-entrada = st.text_input("Digite os números separados por vírgula")
-termos_ind = []
-for num in entrada.split(","):
-    num = num.strip()
-    if num:
-        try:
-            termos_ind.append(float(num))
-        except ValueError:
-            st.warning(f"O valor '{num}' não é um número válido. Será ignorado.")
+    n = st.number_input('Digite a ordem da matriz', min_value=1,
+                        max_value=10, value=1, step=1)
+
+    entrada = st.text_input("Digite os números separados por vírgula")
+    termos_ind = []
+    for num in entrada.split(","):
+        num = num.strip()
+        if num:
+            try:
+                termos_ind.append(float(num))
+            except ValueError:
+                st.warning(f"O valor '{num}' não é um número válido. Será ignorado.")
 
 
-dados = []
+    dados = []
 
-for i in range(n):
-    linha = []
-    for j in range(n):
-        elemento = st.number_input(f'Digite o elemento {i+1}x{j+1} da matriz')
-        linha.append(elemento)
-    dados.append(linha)
+    for i in range(n):
+        linha = []
+        for j in range(n):
+            elemento = st.number_input(f'Digite o elemento {i+1}x{j+1} da matriz')
+            linha.append(elemento)
+        dados.append(linha)
 
-matriz_formatada = matriz(*dados)
+    matriz_formatada = matriz(*dados)
 
-# Saída de dados
-st.write('A matriz digitada foi:')
-exibir_matriz_direita(matriz_formatada)
+    # Saída de dados
+    st.write('O determinante da matriz é:')
+    st.write(det_cramer(matriz_formatada))
 
-st.write('O determinante da matriz é:')
-st.write(det_cramer(matriz_formatada))
+    # st.write('O determinante da matriz é:')
+    # st.write(np.linalg.det(matriz_formatada))
 
-# st.write('O determinante da matriz é:')
-# st.write(np.linalg.det(matriz_formatada))
+    if st.button('Calcular sistema'):
+        if len(termos_ind) != n:
+            st.error(
+                f'Você precisa digitar {n} termos independentes, separados por vírgula.')
+            st.stop()
+        st.write('O resultado do sistema é:')
+        resultado = calcular_determinantes_cramer(matriz_formatada, termos_ind)
+        valores = exibir_sistema(resultado)
+        st.write(valores)
 
-if st.button('Calcular sistema'):
-    if len(termos_ind) != n:
-        st.error(
-            f'Você precisa digitar {n} termos independentes, separados por vírgula.')
-        st.stop()
-    st.write('O resultado do sistema é:')
-    resultado = calcular_determinantes_cramer(matriz_formatada, termos_ind)
-    valores = exibir_sistema(resultado)
-    st.write(valores)
+with col2:
+    st.write('A matriz digitada foi:')
+    exibir_matriz_direita(matriz_formatada)
