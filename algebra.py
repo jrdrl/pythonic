@@ -191,6 +191,10 @@ st.write(det_cramer(matriz_formatada))
 # st.write(np.linalg.det(matriz_formatada))
 
 if st.button('Calcular sistema'):
+    if len(termos_ind) != n:
+        st.error(
+            f'Você precisa digitar {n} termos independentes, separados por vírgula.')
+        st.stop()
     st.write('O resultado do sistema é:')
     resultado = calcular_determinantes_cramer(matriz_formatada, termos_ind)
     valores = exibir_sistema(resultado)
